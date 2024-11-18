@@ -44,17 +44,17 @@ class ImageClassifier():
     def _do_file_conversion_if_needed(self, filepath) -> str:
         extension = self._get_file_extension(filepath)
         if extension == '.heic':
-            filepath = self._create_jpeg_from_heic(filepath)
+            filepath = self._create_png_from_heic(filepath)
             return filepath
         return filepath
 
-    def _create_jpeg_from_heic(self, filepath) -> str:
+    def _create_png_from_heic(self, filepath) -> str:
         image_heic = Image.open(filepath)
         logger.info(image_heic)
         basename_first_part = os.path.splitext(os.path.basename(filepath))[0]
-        new_filepath = f'./data/tmp/{basename_first_part}.jpeg'
+        new_filepath = f'./data/tmp/{basename_first_part}.png'
         logger.info(new_filepath)
-        image_heic.save(new_filepath, format=format('jpeg'))
+        image_heic.save(new_filepath, format=format('png'))
         logger.info('Saved')
         return new_filepath
 
