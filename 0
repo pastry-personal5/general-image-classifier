@@ -1,0 +1,5 @@
+# This file must be used with "source bin/activate" *from bash*
+# you cannot run it directly
+
+source ./venv/bin/activate
+export PYTHONIOENCODING=utf-8
