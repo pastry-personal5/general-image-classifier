@@ -1,5 +1,5 @@
 PYCODESTYLE_MAX_LINE_LENGTH=512
-.PHONY: all checkmake clean lint shellcheck style test unittest
+.PHONY: all checkmake clean lint run shellcheck style test unittest
 
 all: checkmake shellcheck style lint test
 
@@ -11,6 +11,8 @@ clean:
 lint:
 	pylint --rcfile=./.pylintrc *.py || true
 
+run:
+	python ./main.py
 shellcheck:
 	shellcheck 1 || true
 
