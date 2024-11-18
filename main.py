@@ -3,12 +3,12 @@ import time
 
 import cv2 as cv
 from loguru import logger
-from watchdog.events import FileSystemEvent, FileSystemEventHandler
-from watchdog.observers import Observer
-
 from PIL import Image
 from pillow_heif import register_heif_opener
 register_heif_opener()
+import pytesseract
+from watchdog.events import FileSystemEvent, FileSystemEventHandler
+from watchdog.observers import Observer
 
 
 class ImageClassifier():
@@ -22,6 +22,7 @@ class ImageClassifier():
         if not filepath:
             logger.info(f'Bailing out with a filepath ({filepath})')
             return
+        logger.info('Reading...')
         image = cv.imread(filepath)
         # Convert to grayscale
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
@@ -38,8 +39,13 @@ class ImageClassifier():
         )
 
         # Debug
+        logger.info('Debugging...')
         debug_filepath = self._get_debug_filepath(filepath)
         cv.imwrite(debug_filepath, processed_image)
+        logger.info('Running OCR...')
+        text = pytesseract.image_to_string(Image.open(debug_filepath), lang='kor')
+        logger.info('Done')
+        logger.info(text)
 
     def _do_file_conversion_if_needed(self, filepath) -> str:
         extension = self._get_file_extension(filepath)
