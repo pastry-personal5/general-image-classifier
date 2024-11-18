@@ -25,10 +25,10 @@ class ImageClassifier():
         image = cv.imread(filepath)
         # Convert to grayscale
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-        
+
         # Apply GaussianBlur to remove noise
         blurred = cv.GaussianBlur(gray, (5, 5), 0)
-        
+
         # Apply adaptive thresholding for better text segmentation
         processed_image = cv.adaptiveThreshold(
             blurred, 255,
@@ -36,19 +36,18 @@ class ImageClassifier():
             cv.THRESH_BINARY,
             11, 2
         )
-        
+
         # Debug
         debug_filepath = self._get_debug_filepath(filepath)
         cv.imwrite(debug_filepath, processed_image)
-    
-    
+
     def _do_file_conversion_if_needed(self, filepath) -> str:
         extension = self._get_file_extension(filepath)
         if extension == '.heic':
             filepath = self._create_jpeg_from_heic(filepath)
             return filepath
         return filepath
-    
+
     def _create_jpeg_from_heic(self, filepath) -> str:
         image_heic = Image.open(filepath)
         logger.info(image_heic)
@@ -58,12 +57,12 @@ class ImageClassifier():
         image_heic.save(new_filepath, format=format('jpeg'))
         logger.info('Saved')
         return new_filepath
-    
+
     def _get_file_extension(self, filepath: str) -> str:
         """
         Returns the file extension from the given file path.
         * @author chatgpt-4. 2024.
-        
+
         :param file_path: The file path as a string.
         :return: File extension as a string (e.g., '.txt'), or an empty string if there's no extension.
         """
